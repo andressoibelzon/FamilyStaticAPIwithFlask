@@ -31,12 +31,63 @@ def handle_hello():
     # this is how you can use the Family datastructure by calling its methods
     members = jackson_family.get_all_members()
     response_body = {
-        "hello": "world",
         "family": members
     }
+    return jsonify(response_body), 200
 
+
+
+    # obtiene los datos de un SOLO member
+@app.route('/member/<int:member_id>', methods=['GET'])
+def get_one_member(member_id):
+    member = jackson_family.get_member(member_id)
+    print(member)
+    ## querys o consultas
+
+    response_body = {
+        "msg": "ok",
+        "result": member
+    }
 
     return jsonify(response_body), 200
+
+    # anade un miembro a la familia
+@app.route('/member/', methods=['POST'])
+def create_member(member):
+    newmember = jackson_family.add_member(member)
+    print(newmember)
+    ## querys o consultas
+
+    response_body = {
+        "msg": "ok",
+        # "result": newmember
+    }
+
+    return jsonify(response_body), 200
+
+
+
+# @app.route('/user', methods=['POST'])
+# def create_user():
+#     request_body = request.json
+
+#     user_query = User.query.filter_by(email=request_body["email"]).first()
+
+#     if user_query is None:
+#         user = User(email=request_body["email"], password=request_body["password"])
+#         db.session.add(user)
+#         db.session.commit()
+
+#         response_body = {
+#             "msg": "El usuario ha sido creado con exito",
+#             "result": user_query.serialize()
+#         }
+
+#         return jsonify(response_body), 200
+#     else:
+#         return jsonify({"msg":"Usuario ya existe"}), 400
+
+
 
 # this only runs if `$ python src/app.py` is executed
 if __name__ == '__main__':
