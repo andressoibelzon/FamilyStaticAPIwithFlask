@@ -26,14 +26,14 @@ def sitemap():
     return generate_sitemap(app)
 
 @app.route('/members', methods=['GET'])
-def handle_hello():
+def get_members():
 
     # this is how you can use the Family datastructure by calling its methods
     members = jackson_family.get_all_members()
-    response_body = {
-        "family": members
-    }
-    return jsonify(response_body), 200
+
+    if members is None:
+        return jsonify({"msg":"no members"}), 400
+    return jsonify({"msg":"ok"}, {"family": members}), 200
 
 
 
@@ -41,15 +41,10 @@ def handle_hello():
 @app.route('/member/<int:member_id>', methods=['GET'])
 def get_one_member(member_id):
     member = jackson_family.get_member(member_id)
-    print(member)
     ## querys o consultas
-
-    response_body = {
-        "msg": "ok",
-        "result": member
-    }
-
-    return jsonify(response_body), 200
+    if member is None:
+        return jsonify({"msg":"no id match"}), 400
+    return jsonify({"msg": "ok"}, {"result": member}), 200
 
     # anade un miembro a la familia
 @app.route('/member', methods=['POST'])
@@ -58,12 +53,9 @@ def create_member():
     member = jackson_family.add_member(json_data)
     ## querys o consultas
 
-    response_body = {
-        "msg": "ok",
-        "result": member
-    }
-
-    return jsonify(response_body), 200
+    if member is None:
+        return jsonify({"msg":"error"}), 400
+    return jsonify({"msg": "ok"}, {"result": member}), 200
 
 
     # elimina un miembro de la familia
@@ -71,12 +63,9 @@ def create_member():
 def delete_one_member(member_id):
     member = jackson_family.delete_member(member_id)
 
-    response_body = {
-        "msg": "ok",
-        "result": member
-    }
-
-    return jsonify(response_body), 200
+    if member is None:
+        return jsonify({"msg":"error"}), 400
+    return jsonify({"msg": "ok"},{"result": member}), 200
 
 
 
