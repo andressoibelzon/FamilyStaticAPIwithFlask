@@ -75,11 +75,16 @@ class FamilyStructure:
 
     def delete_member(self, id):
         # fill this method and update the return
+        for member in self._members:            
+            if member["id"] == id :
+                self._members.delete(id)
+                commit()
+                return self._members
+
         pass
 
     def get_member(self, id):
         # fill this method and update the return
-
         for member in self._members:            
             if member["id"] == id : 
                 return member["id"]

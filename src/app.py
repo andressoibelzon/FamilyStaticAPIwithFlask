@@ -52,40 +52,37 @@ def get_one_member(member_id):
     return jsonify(response_body), 200
 
     # anade un miembro a la familia
-@app.route('/member/', methods=['POST'])
+@app.route('/member', methods=['POST'])
 def create_member(member):
-    newmember = jackson_family.add_member(member)
-    print(newmember)
+    member = jackson_family.add_member(member)
+    print(member)
     ## querys o consultas
 
     response_body = {
         "msg": "ok",
-        # "result": newmember
+        "result": member
+    }
+
+    return jsonify(response_body), 200
+
+
+    # elimina un miembro de la familia
+@app.route('/member/<int:member_id>', methods=['DELETE'])
+def delete_one_member(member_id):
+    member = jackson_family.delete_member(member_id)
+
+
+    response_body = {
+        "msg": "ok",
+        # "result": member
     }
 
     return jsonify(response_body), 200
 
 
 
-# @app.route('/user', methods=['POST'])
-# def create_user():
-#     request_body = request.json
 
-#     user_query = User.query.filter_by(email=request_body["email"]).first()
 
-#     if user_query is None:
-#         user = User(email=request_body["email"], password=request_body["password"])
-#         db.session.add(user)
-#         db.session.commit()
-
-#         response_body = {
-#             "msg": "El usuario ha sido creado con exito",
-#             "result": user_query.serialize()
-#         }
-
-#         return jsonify(response_body), 200
-#     else:
-#         return jsonify({"msg":"Usuario ya existe"}), 400
 
 
 
