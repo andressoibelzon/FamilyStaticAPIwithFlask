@@ -26,48 +26,34 @@ def sitemap():
     return generate_sitemap(app)
 
 @app.route('/members', methods=['GET'])
-def get_members():
-
-    # this is how you can use the Family datastructure by calling its methods
+def get_memebers():
     members = jackson_family.get_all_members()
-
     if members is None:
-        return jsonify({"msg":"no members"}), 400
-    return jsonify({"msg":"ok"}, {"family": members}), 200
+        return jsonify({"msg":"No se encontraron miembros"}),400
+    return jsonify(members), 200
 
-
-
-    # obtiene los datos de un SOLO member
 @app.route('/member/<int:member_id>', methods=['GET'])
-def get_one_member(member_id):
+def get_single_member(member_id):
     member = jackson_family.get_member(member_id)
-    ## querys o consultas
     if member is None:
-        return jsonify({"msg":"no id match"}), 400
-    return jsonify({"msg": "ok"}, {"result": member}), 200
+        return jsonify({"msg":"Miembro no encontrado"}),400
+    return jsonify(member), 200
 
-    # anade un miembro a la familia
 @app.route('/member', methods=['POST'])
-def create_member():
+def post_memeber():
     json_data = request.get_json()
-    member = jackson_family.add_member(json_data)
-    ## querys o consultas
+    new_member = jackson_family.add_member(json_data)
+    return jsonify({"msg":"creado"}), 200
 
-    if member is None:
-        return jsonify({"msg":"error"}), 400
-    return jsonify({"msg": "ok"}, {"result": member}), 200
-
-
-    # elimina un miembro de la familia
 @app.route('/member/<int:member_id>', methods=['DELETE'])
-def delete_one_member(member_id):
-    member = jackson_family.delete_member(member_id)
+def delete_memeber(member_id):
+    results = jackson_family.delete_member(member_id)
+    return jsonify({"done":True}), 200
 
-    if member is None:
-        return jsonify({"msg":"error"}), 400
-    return jsonify({"msg": "ok"},{"result": member}), 200
-
-
+# this only runs if `$ python src/app.py` is executed
+if __name__ == '__main__':
+    PORT = int(os.environ.get('PORT', 3000))
+    app.run(host='0.0.0.0', port=PORT, debug=True)
 
 
 
