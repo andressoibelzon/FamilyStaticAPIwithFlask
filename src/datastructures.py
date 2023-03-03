@@ -14,21 +14,21 @@ class FamilyStructure:
         self.last_name = last_name
         self._members = [
             {
-            "id": self._generateId(),
+            "id": 1,
             "first_name": "John",
             "last_name": last_name,
             "age": 33,
             "lucky_numbers": [7, 13, 22]
         },
         {
-            "id": self._generateId(),
+            "id": 2,
             "first_name": "Jane",
             "last_name": last_name,
             "age": 35,
             "lucky_numbers": [10, 14, 3]
         },
         {
-            "id": self._generateId(),
+            "id": 3,
             "first_name": "Jimmy",
             "last_name": last_name,
             "age": 5,
@@ -39,49 +39,47 @@ class FamilyStructure:
 
 
         # example list of members
-        self._members = [
-            {
-            "id": self._generateId(),
-            "first_name": "John",
-            "last_name": "Jackson",
-            "age": 33,
-            "lucky_numbers": [7, 13, 22]
-        },
-        {
-            "id": self._generateId(),
-            "first_name": "Jane",
-            "last_name": "Jackson",
-            "age": 35,
-            "lucky_numbers": [10, 14, 3]
-        },
-        {
-            "id": self._generateId(),
-            "first_name": "Jimmy",
-            "last_name": "Jackson",
-            "age": 5,
-            "lucky_numbers": [1]
-        }
-        ]
+        # self._members = [
+        #     {
+        #     "id": 1,
+        #     "first_name": "John",
+        #     "last_name": "Jackson",
+        #     "age": 33,
+        #     "lucky_numbers": [7, 13, 22]
+        # },
+        # {
+        #     "id": 2,
+        #     "first_name": "Jane",
+        #     "last_name": "Jackson",
+        #     "age": 35,
+        #     "lucky_numbers": [10, 14, 3]
+        # },
+        # {
+        #     "id": 3,
+        #     "first_name": "Jimmy",
+        #     "last_name": "Jackson",
+        #     "age": 5,
+        #     "lucky_numbers": [1]
+        # }
+        # ]
 
     # read-only: Use this method to generate random members ID's when adding members into the list
     def _generateId(self):
         return randint(0, 99999999)
 
     def add_member(self, member):
-        # fill this method and update the return
-        return self._members.append(member)
+        self._members.append(member)
+        return self._members
 
         pass
 
     def delete_member(self, id):
         # fill this method and update the return
-        for member in self._members:            
-            if member["id"] == id :
-                self._members.delete(id)
-                commit()
-                return self._members
-
+        self._members = list(filter(lambda item: item["id"] != id, self._members))
+        return self._members
+        
         pass
+
 
     def get_member(self, id):
         # fill this method and update the return

@@ -53,9 +53,9 @@ def get_one_member(member_id):
 
     # anade un miembro a la familia
 @app.route('/member', methods=['POST'])
-def create_member(member):
-    member = jackson_family.add_member(member)
-    print(member)
+def create_member():
+    json_data = request.get_json()
+    member = jackson_family.add_member(json_data)
     ## querys o consultas
 
     response_body = {
@@ -71,10 +71,9 @@ def create_member(member):
 def delete_one_member(member_id):
     member = jackson_family.delete_member(member_id)
 
-
     response_body = {
         "msg": "ok",
-        # "result": member
+        "result": member
     }
 
     return jsonify(response_body), 200
